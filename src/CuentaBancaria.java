@@ -4,25 +4,41 @@ import java.util.Date;
 
 public class CuentaBancaria {
 
+	/**
+	 * Código IBAN de la cuenta 
+	 */
+	private String CCC;
+	/**
+	 * Saldo
+	 */
+	private float Saldo;
+	
+	/**
+	 * Constructor cuenta bancaria con parámetros
+	 * Si se ingresa un saldo negativo, se instnaciará
+	 * el objeto con saldo = 0
+	 * @param cCC	Código de la cuenta corriente
+	 * @param saldo Saldo de la cuenta
+	 */
+	
 	public CuentaBancaria(String cCC, float saldo) {
 		super();
-		CCC = cCC;
-		Saldo = saldo;
+		this.CCC = cCC;
+		if (saldo<0) saldo = 0;
+		this.Saldo = saldo;
 	}
+	
+	
+	
+	
+	
 	public CuentaBancaria() {
-		super();
+		this.CCC="ES98bbbbssssdd0000000000";
 		this.Saldo = (float) 0.0;
 		// TODO Auto-generated constructor stub
 	}
 	
-	/**
-	 * Código IBAN de la cuenta 
-	 */
-	private String CCC="ES98bbbbssssdd0000000000";
-	/**
-	 * Saldo
-	 */
-	private float Saldo=0;
+
 	/**
 	 * Devuelve el número de cuenta del objeto
 	 * @return valor de CCC
@@ -68,8 +84,13 @@ public class CuentaBancaria {
 			boolean result;
 			if (cantidad<0) {result = false;}
 			else {
-				Saldo -= cantidad;
-				result = true;
+				if (Saldo >= cantidad) {
+					Saldo -= cantidad;
+					result = true;
+				}
+				else {
+					result = false;
+					}
 			}
 			return result;
 		}
