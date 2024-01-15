@@ -84,8 +84,8 @@ public class CuentaBancaria {
 			boolean result;
 			if (cantidad<0) {result = false;}
 			else {
-				if (Saldo >= cantidad) {
-					Saldo -= cantidad;
+				if (this.Saldo >= cantidad) {
+					this.Saldo -= cantidad;
 					result = true;
 				}
 				else {
