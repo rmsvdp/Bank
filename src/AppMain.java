@@ -11,9 +11,9 @@ public class AppMain {
 	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 
-		boolean resultado;
+		boolean resultado=true;
 		
-
+		
 		//1.- Crear objetos
 		CuentaBancaria c1 = new CuentaBancaria();
 		CuentaBancaria c2 = new CuentaBancaria();
