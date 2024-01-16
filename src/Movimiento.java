@@ -1,6 +1,21 @@
 import java.time.LocalDateTime;
 
-
+/*
+ * Formateo de cadenas y manejo de LocalDateTime
+ * 
+ * añade espacios a la derecha
+ * cadena = String.format("%-" + Longitud_Total_Cadena_Final + "s",cadena);
+ * 
+ * Definir formato de fecha:
+ * DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+ * -- Obtener fecha actual
+ * LocalDateTime ahora = LocalDateTime.now();
+ * System.out.println(ahora.format(fmt));
+ * -- Especifiar una fecha hora determinada
+ * String miFechaHora ="2024-01-01 00:00:00";
+ * LocalDateTime fechaFija = LocalDateTime.parse(miFechaHora,fmt);
+ * System.out.println(ahora.format(fechaFija));
+ */
 
 public class Movimiento {
 
@@ -54,16 +69,18 @@ public class Movimiento {
 public String toString() {
 	
 	String result = "";
-	  
+	String tmp ="";
 	result = result + this.fechamov + "  ";
 	// TODO que la longitud de la descripción de la operación
 	// sea siempre igual
-	result = result + this.operacion + "  "; 
+	tmp = String.format("%-14s", this.operacion);
+	result = result + tmp+ "  "; 
 	result = result + this.corigen.getCCC() + "  ";
 	if (this.cdestino == null) {
 		// TODO rellenar con espacios (longitud igual 
 		// a lo que ocupa la cuenta bancaria
-		result = result + "   ";
+		tmp = String.format("%-24s", " ");
+		result = result + tmp;
 	}
 	else {
 			result = result + this.cdestino.getCCC() + "  "; 

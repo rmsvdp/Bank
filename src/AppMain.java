@@ -45,7 +45,43 @@ public class AppMain {
 			System.out.println("Operacion cancelada");
 			}
 		
-				
+		
+		// -------------------- main app
+		String[] opciones = {"1.INGRESO EN CUENTA","2.RETIRADA EFECTIVO",
+				"3.TRANSFERENCIA","4.CONSULTA SALDO","5.ULT. MOVIMIENTOS","6.BUSCAR MOVIMIENTO"};
+		Menu menuCajero = new Menu(opciones);
+		boolean salir = false;
+		int opcion;
+		while (!salir) {
+			
+			menuCajero.mostrarMenu();
+			opcion = menuCajero.eligeOpcion();
+			
+			switch (opcion) {
+			
+			case 1:
+				//
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 0:
+				salir = true;
+				break;
+			
+			}
+			
+			
+		} // bucle de ejecución
+		
+		
 		/*
 		
 			
