@@ -54,7 +54,7 @@ public class Movimiento {
 public String toString() {
 	
 	String result = "";
-	
+	  
 	result = result + this.fechamov + "  ";
 	// TODO que la longitud de la descripción de la operación
 	// sea siempre igual
