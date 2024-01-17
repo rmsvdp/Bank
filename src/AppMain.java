@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+
+
 //https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone/1.10.1
 
 public class AppMain {
@@ -52,6 +54,8 @@ public class AppMain {
 		Menu menuCajero = new Menu(opciones);
 		boolean salir = false;
 		int opcion;
+		Cajero miCajero = new Cajero("PALOMA");
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		while (!salir) {
 			
 			menuCajero.mostrarMenu();
@@ -60,17 +64,23 @@ public class AppMain {
 			switch (opcion) {
 			
 			case 1:
-				//
+				// Ingreso en cuenta
+				miCajero.realizaOperacion(Cajero.tipoOperacion.INGRESO, c1, null, 100, null);
 				break;
 			case 2:
+				miCajero.realizaOperacion(Cajero.tipoOperacion.RETIRADA, c1, null, 100, null);
 				break;
 			case 3:
+				miCajero.realizaOperacion(Cajero.tipoOperacion.TRANSFERENCIA, c1, c2, 100, null);
 				break;
 			case 4:
+				miCajero.realizaOperacion(Cajero.tipoOperacion.SALDO, c1, null, 100, null);
 				break;
 			case 5:
+				miCajero.realizaOperacion(Cajero.tipoOperacion.ULTIMOS_MOV, c1, null, 100, null);
 				break;
 			case 6:
+				miCajero.realizaOperacion(Cajero.tipoOperacion.BUSCA_MOV, c1, null, -1, LocalDateTime.parse("2024-01-01", fmt));
 				break;
 			case 0:
 				salir = true;

@@ -77,21 +77,14 @@ public String toString() {
 	result = result + tmp+ "  "; 
 	result = result + this.corigen.getCCC() + "  ";
 	if (this.cdestino == null) {
-		// TODO rellenar con espacios (longitud igual 
-		// a lo que ocupa la cuenta bancaria
 		tmp = String.format("%-24s", " ");
 		result = result + tmp;
 	}
 	else {
 			result = result + this.cdestino.getCCC() + "  "; 
 		}
-	
 	if (importe >0) {
 		result = result + this.importe;
-	}
-	else {
-		
-		
 	}
 	return result;
 }
