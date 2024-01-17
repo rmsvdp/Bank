@@ -11,62 +11,48 @@ import java.util.Scanner;
 
 public class AppMain {
 
+	// Cuentas ejemplo
+	public static CuentaBancaria cejemplo[] = {
+			new CuentaBancaria("ES9820346248012554266201",2500),
+			new CuentaBancaria("ES9880941735016678433239",2500),
+			new CuentaBancaria("ES9820346248012889674522",6000),
+			new CuentaBancaria("ES9880941735016678436763",800)};
+	private double importe;							// Objeto para el importe
+	private  LocalDateTime lfecha;						// Objeto para la fecha
+	//Cuentas de trabajo
+	private CuentaBancaria corigen;
+	private CuentaBancaria cdestino;	
 	
-	public static CuentaBancaria c1 = new CuentaBancaria(); // Objeto para cuenta origen
-	public static CuentaBancaria c2 = new CuentaBancaria(); // Objeto para cuenta destino
-	public static double importe;							// Objeto para el importe
-	public static LocalDateTime lfecha;						// Objeto para la fecha
-	
-	
-	static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException {
 		// TODO Auto-generated method stub
 
-		boolean resultado=true;
+
 
 		AppMain doBank = new AppMain();
 		doBank.runApp();
-		
-		//1.- Crear objetos
-
-		
-		// 2.- Darles valores
-			// c1 800 €
-			// c2 100 €
-		c1.setSaldo(800);
-		c2.setSaldo(100);
-		
-		// 3. Hacer la transferencia desde c1 a c2
-			// transferir 300 €
-		c1.enviaTransferencia(c2, 300);
-		
-		// 4.- Pintar los saldos de c1 y c2
-		
-		System.out.println("Saldo de la cuenta 1: " +c1.getSaldo());
-		System.out.println("Saldo de la cuenta 2: " +c2.getSaldo());
-
-		resultado=c1.ingresaEnCuenta(500);
-		resultado=c1.retiraDeCuenta(500);
-		if (resultado) {
-			System.out.println(c1.getSaldo());
-		}
-		else {
-			System.out.println("Operacion cancelada");
-			}
-	
+		System.out.println("Aplicación terminada.");
 	} // main
-	
+	private CuentaBancaria eligeCuenta(String cual) {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Elige cuenta de "+ cual +"(1,2,3,4)?");
+		int opc = sc.nextInt();
+		return this.cejemplo[opc-1];
+	};
 	public void pideDatos(Cajero.tipoOperacion tipo) {
 		
 		Scanner sc = new Scanner(System.in);
 		int nc=0;
+		String sfecha= "";
 		
 		if (tipo== Cajero.tipoOperacion.BUSCA_MOV) {
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			// Pedir fecha de búsqueda 
 			System.out.print("Elije fecha ?");
-			nc = sc.nextInt();
+			sfecha = sc.nextLine();
+			lfecha = LocalDateTime.parse(sfecha, fmt);
 			// Pedir cuenta de búsqueda
-			System.out.print("Elije cuenta ?");
-			nc = sc.nextInt();
+			this.corigen= this.eligeCuenta("Búsqueda");
 		}
 		else {
 			if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)
@@ -75,60 +61,63 @@ public class AppMain {
 				importe = sc.nextInt();
 			}
 			if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)) {
-				System.out.print("Elije cuenta origen ?");
-				nc = sc.nextInt();
+				this.corigen= this.eligeCuenta("Origen");
 			}
 			if  (tipo == Cajero.tipoOperacion.TRANSFERENCIA) {
-				System.out.print("Elije cuenta destino ?");
-				nc = sc.nextInt();
+				// Pedir cuenta de búsqueda
+				this.corigen= this.eligeCuenta("Origen");
+				this.cdestino= this.eligeCuenta("Destino");
 			}
 			if  (tipo == Cajero.tipoOperacion.SALDO) {
-				System.out.print("Elije cuenta ?");
-				nc = sc.nextInt();
-			}
+				// Pedir cuenta de búsqueda
+				this.corigen= this.eligeCuenta("Búsqueda");			}
 		}
 	} // pideDatos
 	
 	public void runApp() {
 
-		String[] opciones = {"1.INGRESO EN CUENTA","2.RETIRADA EFECTIVO",
-				"3.TRANSFERENCIA","4.CONSULTA SALDO","5.ULT. MOVIMIENTOS","6.BUSCAR MOVIMIENTO"};
+		String[] opciones = {"INGRESO EN CUENTA","RETIRADA EFECTIVO",
+				"TRANSFERENCIA","CONSULTA SALDO","ULT. MOVIMIENTOS","BUSCAR MOVIMIENTO"};
 		Menu menuCajero = new Menu(opciones);
+		boolean resultado=true;
+		
 		boolean salir = false;
 		int opcion;
 		Cajero miCajero = new Cajero("PALOMA");
-		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
 		while (!salir) {			
 			menuCajero.mostrarMenu();
 			opcion = menuCajero.eligeOpcion();
 			switch (opcion) {		
 				case 1:
 					pideDatos(Cajero.tipoOperacion.INGRESO);
-					miCajero.realizaOperacion(Cajero.tipoOperacion.INGRESO, c1, null, 100, null);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.INGRESO, corigen, null, importe, null);
 					break;
 				case 2:
 					pideDatos(Cajero.tipoOperacion.RETIRADA);
-					miCajero.realizaOperacion(Cajero.tipoOperacion.RETIRADA, c1, null, 100, null);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.RETIRADA, corigen, null, importe, null);
 					break;
 				case 3:
 					pideDatos(Cajero.tipoOperacion.TRANSFERENCIA);
-					miCajero.realizaOperacion(Cajero.tipoOperacion.TRANSFERENCIA, c1, c2, 100, null);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.TRANSFERENCIA, corigen, cdestino, importe, null);
 					break;
 				case 4:
-					miCajero.realizaOperacion(Cajero.tipoOperacion.SALDO, c1, null, 100, null);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.SALDO, corigen, null, importe, null);
 					break;
 				case 5:
 					pideDatos(Cajero.tipoOperacion.ULTIMOS_MOV);
-					miCajero.realizaOperacion(Cajero.tipoOperacion.ULTIMOS_MOV, c1, null, 100, null);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.ULTIMOS_MOV, corigen, null, importe, null);
 					break;
 				case 6:
 					pideDatos(Cajero.tipoOperacion.BUSCA_MOV);
-					miCajero.realizaOperacion(Cajero.tipoOperacion.BUSCA_MOV, c1, null, -1, LocalDateTime.parse("2024-01-01", fmt));
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.BUSCA_MOV, corigen, null, -1, lfecha);
 					break;
 				case 0:
 					salir = true;
+					resultado = true;
 					break;
 			} // switch elección
+			if (!resultado) System.out.println("Error al realizar la operación");
 		} // bucle de ejecución	
 		
 	}
