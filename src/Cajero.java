@@ -17,7 +17,7 @@ public class Cajero {
 		this.ultMov = 0;
 	} // Cajero
 	public boolean realizaOperacion(tipoOperacion tipo,CuentaBancaria ccOrg,CuentaBancaria ccDest,double importe,LocalDateTime fecha) {
-		boolean result = false;
+		boolean result = true;
 		LocalDateTime t ; 
 		Movimiento m;
 		switch (tipo) {		
@@ -26,7 +26,7 @@ public class Cajero {
 				if (result== true) {
 					 t = LocalDateTime.now();
 					m = new Movimiento(ccOrg,null,importe,t,getLiteral(tipo));
-					this.registraMov(m);
+					result = this.registraMov(m);
 				}
 				break;
 			case RETIRADA:
@@ -34,7 +34,7 @@ public class Cajero {
 				if (result== true) {
 					t = LocalDateTime.now();
 					m = new Movimiento(ccOrg,null,importe,t,getLiteral(tipo));
-					this.registraMov(m);
+					result = this.registraMov(m);
 				}
 				break;
 			case TRANSFERENCIA:
@@ -42,30 +42,30 @@ public class Cajero {
 				if (result== true) {
 					 t = LocalDateTime.now();
 					m = new Movimiento(ccOrg,ccDest,importe,t,getLiteral(tipo));
-					this.registraMov(m);
+					result = this.registraMov(m);
 				}
 				break;
-			case SALDO:
+			case SALDO:  // OK
 					System.out.println("Saldo en cuenta : " + ccOrg.getCCC()+ " -> " + ccOrg.getSaldo());
 					t = LocalDateTime.now();
 					m = new Movimiento(ccOrg,null,ccOrg.getSaldo(),t,getLiteral(tipo));
-					this.registraMov(m);
+					result = this.registraMov(m);
 				break;
 			case ULTIMOS_MOV:
 				this.ListaMov(ccOrg);
 				t = LocalDateTime.now();
 				m = new Movimiento(ccOrg,null,-1,t,getLiteral(tipo));
-				this.registraMov(m);
+				result = this.registraMov(m);
 				break;		
 			case BUSCA_MOV:				//TODO Immplentar buscarMovimiento
-				this.BuscaMov(ccOrg, fecha);
+				result = this.BuscaMov(ccOrg, fecha);
 				break;		
 		} // switch
 		return result;
 	} // realizaOperacion
 		
 	private boolean registraMov(Movimiento _movimiento) {
-		boolean result = false;
+		boolean result = true;
 		this.mov[this.ultMov] = _movimiento;
 		this.ultMov = this.ultMov +1 ;
 		//this.ultMov = this.ultMov%MEM_SIZE;
@@ -75,7 +75,7 @@ public class Cajero {
 		return result;
 	} // registraMov
 	private boolean ListaMov(CuentaBancaria ccOrg) {
-		boolean result = false;
+		boolean result = true;
 		int cur_ini;
 		cur_ini = this.ultMov - LIST_SIZE;
 		if (cur_ini<0) cur_ini = cur_ini + MEM_SIZE;

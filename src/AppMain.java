@@ -9,10 +9,10 @@ public class AppMain {
 
 	// Cuentas ejemplo
 	public static CuentaBancaria cejemplo[] = {
-			new CuentaBancaria("ES9820346248012554266201",2500),
-			new CuentaBancaria("ES9880941735016678433239",2500),
-			new CuentaBancaria("ES9820346248012889674522",6000),
-			new CuentaBancaria("ES9880941735016678436763",800)};
+			new CuentaBancaria("ES9820346248012554266201",2501),
+			new CuentaBancaria("ES9880941735016678433239",2502),
+			new CuentaBancaria("ES9820346248012889674522",6003),
+			new CuentaBancaria("ES9880941735016678436763",804)};
 	private double importe;							// Objeto para el importe
 	private  LocalDateTime lfecha;					// Objeto para la fecha
 	private CuentaBancaria corigen;						//Cuentas de trabajo
@@ -51,6 +51,7 @@ public class AppMain {
 					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.TRANSFERENCIA, corigen, cdestino, importe, null);
 					break;
 				case 4:
+					pideDatos(Cajero.tipoOperacion.SALDO);
 					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.SALDO, corigen, null, importe, null);
 					break;
 				case 5:
@@ -104,7 +105,7 @@ public class AppMain {
 					this.cdestino= this.eligeCuenta("Destino");
 				}
 				if  (tipo == Cajero.tipoOperacion.SALDO) {
-					this.corigen= this.eligeCuenta("Búsqueda");			}
+					this.corigen= this.eligeCuenta("Origen");			}
 			}
 		} // pideDatos
 		
