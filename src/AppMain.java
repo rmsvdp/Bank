@@ -11,8 +11,8 @@ public class AppMain {
 	public static CuentaBancaria cejemplo[] = {
 			new CuentaBancaria("ES9820346248012554266201",2501),
 			new CuentaBancaria("ES9880941735016678433239",2502),
-			new CuentaBancaria("ES9820346248012889674522",6003),
-			new CuentaBancaria("ES9880941735016678436763",804)};
+			new CuentaBancaria("ES9820346248012889674522",2503),
+			new CuentaBancaria("ES9880941735016678436763",2504)};
 	private double importe;							// Objeto para el importe
 	private  LocalDateTime lfecha;					// Objeto para la fecha
 	private CuentaBancaria corigen;						//Cuentas de trabajo
@@ -21,20 +21,22 @@ public class AppMain {
 	public static void main(String[] args) throws ParseException {
 		AppMain doBank = new AppMain();
 		doBank.runApp();
+		//doBank.ejFecha();
 		System.out.println("Aplicación terminada.");
 	} // main
 	
 	public void runApp() {
 
 		String[] opciones = {"INGRESO EN CUENTA","RETIRADA EFECTIVO","TRANSFERENCIA",
-							 "CONSULTA SALDO","ULT. MOVIMIENTOS","BUSCAR MOVIMIENTO"};
+							 "CONSULTA SALDO","ULT. MOVIMIENTOS","BUSCAR MOVIMIENTO","MOV.EN CAJERO"};
 		Menu menuCajero = new Menu(opciones);
 		boolean resultado=true;		
 		boolean salir = false;
 		int opcion;
 		Cajero miCajero = new Cajero("PALOMA");
 		
-		while (!salir) {			
+		while (!salir) {
+			System.out.println("\n");
 			menuCajero.mostrarMenu();
 			opcion = menuCajero.eligeOpcion();
 			switch (opcion) {		
@@ -55,12 +57,24 @@ public class AppMain {
 					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.SALDO, corigen, null, importe, null);
 					break;
 				case 5:
-					pideDatos(Cajero.tipoOperacion.ULTIMOS_MOV);
-					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.ULTIMOS_MOV, corigen, null, importe, null);
+					System.out.println("Operación no implementada!");
+					resultado = true;
+//					pideDatos(Cajero.tipoOperacion.ULTIMOS_MOV);
+//					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.ULTIMOS_MOV, corigen, null, null, null);
 					break;
 				case 6:
-					pideDatos(Cajero.tipoOperacion.BUSCA_MOV);
-					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.BUSCA_MOV, corigen, null, -1, lfecha);
+					System.out.println("Operación no implementada!");
+					resultado = true;
+					
+//					pideDatos(Cajero.tipoOperacion.BUSCA_MOV);
+//					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.BUSCA_MOV, corigen, null, -1, lfecha);
+					break;
+				case 7:
+					System.out.println("Operación no implementada!");
+					resultado = true;
+					
+//					pideDatos(Cajero.tipoOperacion.BUSCA_MOV);
+					resultado=miCajero.realizaOperacion(Cajero.tipoOperacion.MOV_CAJERO, null, null, -1, null);
 					break;
 				case 0:
 					salir = true;
@@ -104,31 +118,27 @@ public class AppMain {
 					this.corigen= this.eligeCuenta("Origen");
 					this.cdestino= this.eligeCuenta("Destino");
 				}
-				if  (tipo == Cajero.tipoOperacion.SALDO) {
+				if  (tipo == Cajero.tipoOperacion.SALDO || tipo == Cajero.tipoOperacion.ULTIMOS_MOV ) {
 					this.corigen= this.eligeCuenta("Origen");			}
 			}
 		} // pideDatos
 		
 	
 		
+	public void ejFecha() {	
 		
-		
-		/*
 	//0 - Fecha/Hora Actual
 	LocalDateTime today = LocalDateTime.now();
-	//1 - default time pattern
+	System.out.println("actual:       " + today);
+	//1 - Patrón por defecto
 	String time = "2024-01-11T12:05:30";
 	LocalDateTime localTimeObj = LocalDateTime.parse(time);
-	//2 - specific date time pattern
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
-	String time1 = "2019-03-27 10:15:30 AM";
+	System.out.println("Por defecto:  " +localTimeObj);
+	//2 - Partrón a medida
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	String time1 = "2024-01-11 12:15:30";
 	LocalDateTime localTimeObj1 = LocalDateTime.parse(time1, formatter);
-	Cajero Paloma1 = new Cajero("PALOMA01");
-	CuentaBancaria Marcos = new CuentaBancaria();
-	CuentaBancaria Rosa = new CuentaBancaria();
-	Paloma1.operacion(Cajero.tipoOperacion.INGRESO, Marcos, 100);
-	Paloma1.operacion(Cajero.tipoOperacion.TRANSFERENCIA, Marcos, Rosa, 50);
-	Paloma1.operacion(Cajero.tipoOperacion.SALDO, Marcos);
-	*/
-
+	System.out.println("Específico:   " +localTimeObj1.format(formatter));
+	
+	} // ejFecha
 } // Class

@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /*
  * Formateo de cadenas y manejo de LocalDateTime
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
  * -- Especifiar una fecha hora determinada
  * String miFechaHora ="2024-01-01 00:00:00";
  * LocalDateTime fechaFija = LocalDateTime.parse(miFechaHora,fmt);
- * System.out.println(ahora.format(fechaFija));
+ * System.out.println(fechaFija.format(fmt));
  */
 
 public class Movimiento {
@@ -68,9 +69,10 @@ public class Movimiento {
 	
 public String toString() {
 	
+	DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	String result = "";
 	String tmp ="";
-	result = result + this.fechamov + "  ";
+	result = result + this.fechamov.format(fmt) + "  ";
 	// TODO que la longitud de la descripción de la operación
 	// sea siempre igual
 	tmp = String.format("%-14s", this.operacion);
