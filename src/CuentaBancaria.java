@@ -28,17 +28,11 @@ public class CuentaBancaria {
 		this.Saldo = saldo;
 	}
 	
-	
-	
-	
-	
 	public CuentaBancaria() {
 		this.CCC="ES98bbbbssssdd0000000000";
 		this.Saldo = (float) 0.0;
 		// TODO Auto-generated constructor stub
 	}
-	
-
 	/**
 	 * Devuelve el número de cuenta del objeto
 	 * @return valor de CCC

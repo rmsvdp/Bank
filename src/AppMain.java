@@ -1,11 +1,7 @@
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Scanner;
-
-
 
 //https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone/1.10.1
 
@@ -18,69 +14,22 @@ public class AppMain {
 			new CuentaBancaria("ES9820346248012889674522",6000),
 			new CuentaBancaria("ES9880941735016678436763",800)};
 	private double importe;							// Objeto para el importe
-	private  LocalDateTime lfecha;						// Objeto para la fecha
-	//Cuentas de trabajo
-	private CuentaBancaria corigen;
+	private  LocalDateTime lfecha;					// Objeto para la fecha
+	private CuentaBancaria corigen;						//Cuentas de trabajo
 	private CuentaBancaria cdestino;	
 	
 	public static void main(String[] args) throws ParseException {
-		// TODO Auto-generated method stub
-
-
-
 		AppMain doBank = new AppMain();
 		doBank.runApp();
 		System.out.println("Aplicación terminada.");
 	} // main
-	private CuentaBancaria eligeCuenta(String cual) {
-		
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Elige cuenta de "+ cual +"(1,2,3,4)?");
-		int opc = sc.nextInt();
-		return this.cejemplo[opc-1];
-	};
-	public void pideDatos(Cajero.tipoOperacion tipo) {
-		
-		Scanner sc = new Scanner(System.in);
-		int nc=0;
-		String sfecha= "";
-		
-		if (tipo== Cajero.tipoOperacion.BUSCA_MOV) {
-			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			// Pedir fecha de búsqueda 
-			System.out.print("Elije fecha ?");
-			sfecha = sc.nextLine();
-			lfecha = LocalDateTime.parse(sfecha, fmt);
-			// Pedir cuenta de búsqueda
-			this.corigen= this.eligeCuenta("Búsqueda");
-		}
-		else {
-			if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)
-					|| (tipo == Cajero.tipoOperacion.TRANSFERENCIA)) {
-				System.out.print("Que importe deseas?");
-				importe = sc.nextInt();
-			}
-			if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)) {
-				this.corigen= this.eligeCuenta("Origen");
-			}
-			if  (tipo == Cajero.tipoOperacion.TRANSFERENCIA) {
-				// Pedir cuenta de búsqueda
-				this.corigen= this.eligeCuenta("Origen");
-				this.cdestino= this.eligeCuenta("Destino");
-			}
-			if  (tipo == Cajero.tipoOperacion.SALDO) {
-				// Pedir cuenta de búsqueda
-				this.corigen= this.eligeCuenta("Búsqueda");			}
-		}
-	} // pideDatos
 	
 	public void runApp() {
 
-		String[] opciones = {"INGRESO EN CUENTA","RETIRADA EFECTIVO",
-				"TRANSFERENCIA","CONSULTA SALDO","ULT. MOVIMIENTOS","BUSCAR MOVIMIENTO"};
+		String[] opciones = {"INGRESO EN CUENTA","RETIRADA EFECTIVO","TRANSFERENCIA",
+							 "CONSULTA SALDO","ULT. MOVIMIENTOS","BUSCAR MOVIMIENTO"};
 		Menu menuCajero = new Menu(opciones);
-		boolean resultado=true;
-		
+		boolean resultado=true;		
 		boolean salir = false;
 		int opcion;
 		Cajero miCajero = new Cajero("PALOMA");
@@ -121,7 +70,49 @@ public class AppMain {
 		} // bucle de ejecución	
 		
 	}
-	/*
+	
+	private CuentaBancaria eligeCuenta(String cual) {
+			
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Elige cuenta de "+ cual +"(1,2,3,4)?");
+			int opc = sc.nextInt();
+			return this.cejemplo[opc-1];
+		};
+	public void pideDatos(Cajero.tipoOperacion tipo) {
+			
+			Scanner sc = new Scanner(System.in);
+			int nc=0;
+			String sfecha= "";
+			if (tipo== Cajero.tipoOperacion.BUSCA_MOV) {
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				System.out.print("Elije fecha ?");
+				sfecha = sc.nextLine();
+				lfecha = LocalDateTime.parse(sfecha, fmt);
+				this.corigen= this.eligeCuenta("Búsqueda");
+			}
+			else {
+				if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)
+						|| (tipo == Cajero.tipoOperacion.TRANSFERENCIA)) {
+					System.out.print("Que importe deseas?");
+					importe = sc.nextInt();
+				}
+				if  ((tipo== Cajero.tipoOperacion.INGRESO) || (tipo == Cajero.tipoOperacion.RETIRADA)) {
+					this.corigen= this.eligeCuenta("Origen");
+				}
+				if  (tipo == Cajero.tipoOperacion.TRANSFERENCIA) {
+					this.corigen= this.eligeCuenta("Origen");
+					this.cdestino= this.eligeCuenta("Destino");
+				}
+				if  (tipo == Cajero.tipoOperacion.SALDO) {
+					this.corigen= this.eligeCuenta("Búsqueda");			}
+			}
+		} // pideDatos
+		
+	
+		
+		
+		
+		/*
 	//0 - Fecha/Hora Actual
 	LocalDateTime today = LocalDateTime.now();
 	//1 - default time pattern
